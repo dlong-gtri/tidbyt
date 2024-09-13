@@ -11,6 +11,12 @@ load("render.star", "render")
 load("schema.star", "schema")
 load("time.star", "time")
 
+FBS = "80"
+FCS = "81"
+GEORGIA_TECH = "59"
+TENNESSEE = "2633"
+UTC = "236"
+
 CACHE_TTL_SECONDS = 60
 DEFAULT_LOCATION = """
 {
@@ -192,19 +198,25 @@ def main(config):
     displayTop = config.get("displayTop", "league")
     timeColor = config.get("displayTimeColor", "#FFA500")
     rotationSpeed = config.get("rotationSpeed", "5")
-    conferenceType = config.get("conferenceType", "0")
-    if conferenceType == "0":
-        apiURL = API + "?limit=300"
-    else:
-        apiURL = API + "?limit=300&groups=" + conferenceType
+    apiURL = API + "?limit=300"
     location = config.get("location", DEFAULT_LOCATION)
     loc = json.decode(location)
     timezone = loc["timezone"]
     now = time.now().in_location(timezone)
     datePast = now - time.parse_duration("%dh" % 1 * 24)
     dateFuture = now + time.parse_duration("%dh" % 6 * 24)
+
+    scores = list()
+
     league = {LEAGUE: apiURL + (selectedTeam == "all" and " " or "&dates=" + datePast.format("20060102") + "-" + dateFuture.format("20060102"))}
-    scores = get_scores(league, selectedTeam)
+    scores.extend(get_scores(league, selectedTeam))
+
+    league = {LEAGUE: apiURL + "&groups=" + FBS + (selectedTeam == "all" and " " or "&dates=" + datePast.format("20060102") + "-" + dateFuture.format("20060102"))}
+    scores.extend(get_scores(league, GEORGIA_TECH))
+    scores.extend(get_scores(league, TENNESSEE))
+
+    league = {LEAGUE: apiURL + "&groups=" + FCS + (selectedTeam == "all" and " " or "&dates=" + datePast.format("20060102") + "-" + dateFuture.format("20060102"))}
+    scores.extend(get_scores(league, UTC))
 
     if len(scores) > 0:
         for i, s in enumerate(scores):
@@ -640,7 +652,7 @@ conferenceOptions = [
     ),
     schema.Option(
         display = "FBS (I-A)",
-        value = "80",
+        value = FBS,
     ),
     schema.Option(
         display = "ACC",
@@ -688,7 +700,7 @@ conferenceOptions = [
     ),
     schema.Option(
         display = "FCS (I-AA)",
-        value = "81",
+        value = FCS,
     ),
     schema.Option(
         display = "ASUN",
@@ -1246,7 +1258,7 @@ teamOptions = [
     ),
     schema.Option(
         display = "Chattanooga Mocs",
-        value = "236",
+        value = UTC,
     ),
     schema.Option(
         display = "Cheyney Wolves",
@@ -3198,7 +3210,7 @@ teamOptions = [
     ),
     schema.Option(
         display = "Tennessee Volunteers",
-        value = "2633",
+        value = TENNESSEE,
     ),
     schema.Option(
         display = "Texas A&M Aggies",
