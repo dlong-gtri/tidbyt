@@ -23,7 +23,7 @@ DEFAULT_LOCATION = """
 }
 """
 LEAGUE_DISPLAY = "NCAAF"
-LEAGUE_DISPLAY_OFFSET = 6
+LEAGUE_DISPLAY_OFFSET = 5
 SPORT = "football"
 LEAGUE = "college-football"
 API = "https://site.api.espn.com/apis/site/v2/sports/" + SPORT + "/" + LEAGUE + "/scoreboard"
@@ -273,6 +273,11 @@ def main(config):
                     gameTime = convertedTime.format("Jan 2")
                 else:
                     gameTime = convertedTime.format("3:04 PM")
+
+                if (convertedTime - now).hours <= 168:
+                    gameTime = convertedTime.format("Mon 15:04")
+                else:
+                    gameTime = convertedTime.format("1/2 15:04")
                 if pregameDisplay == "odds":
                     checkOdds = competition.get("odds", "NO")
                     if checkOdds != "NO":
