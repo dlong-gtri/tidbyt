@@ -314,8 +314,8 @@ def main(config):
                             homeScore = get_odds(theOdds, str(theOU), home, "home")
                             awayScore = get_odds(theOdds, str(theOU), away, "away")
                     else:
-                        homeScore = ""
-                        awayScore = ""
+                        homeScore = competition["competitors"][0]["records"][0]["summary"]
+                        awayScore = competition["competitors"][1]["records"][0]["summary"]
                 elif pregameDisplay == "record":
                     checkSeries = competition.get("series", "NO")
                     if checkSeries == "NO":
