@@ -203,19 +203,20 @@ def main(config):
     loc = json.decode(location)
     timezone = loc["timezone"]
     now = time.now().in_location(timezone)
-    datePast = now - time.parse_duration("%dh" % 1 * 24)
-    dateFuture = now + time.parse_duration("%dh" % 6 * 24)
+    yesterday = now - time.parse_duration("%dh" % 1 * 24)
+    tomorrow = now + time.parse_duration("%dh" % 1 * 24)
+    nextWeek = now + time.parse_duration("%dh" % 6 * 24)
 
     scores = list()
 
-    league = {LEAGUE: apiURL + (selectedTeam == "all" and " " or "&dates=" + datePast.format("20060102") + "-" + dateFuture.format("20060102"))}
+    league = {LEAGUE: apiURL + (selectedTeam == "all" and " " or "&dates=" + yesterday.format("20060102") + "-" + tomorrow.format("20060102"))}
     scores.extend(get_scores(league, selectedTeam))
 
-    league = {LEAGUE: apiURL + "&groups=" + FBS + (selectedTeam == "all" and " " or "&dates=" + datePast.format("20060102") + "-" + dateFuture.format("20060102"))}
+    league = {LEAGUE: apiURL + "&groups=" + FBS + (selectedTeam == "all" and " " or "&dates=" + yesterday.format("20060102") + "-" + nextWeek.format("20060102"))}
     scores.extend(get_scores(league, GEORGIA_TECH))
     scores.extend(get_scores(league, TENNESSEE))
 
-    league = {LEAGUE: apiURL + "&groups=" + FCS + (selectedTeam == "all" and " " or "&dates=" + datePast.format("20060102") + "-" + dateFuture.format("20060102"))}
+    league = {LEAGUE: apiURL + "&groups=" + FCS + (selectedTeam == "all" and " " or "&dates=" + yesterday.format("20060102") + "-" + nextWeek.format("20060102"))}
     scores.extend(get_scores(league, UTC))
 
     if len(scores) > 0:
