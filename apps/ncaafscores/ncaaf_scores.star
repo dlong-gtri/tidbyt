@@ -220,6 +220,15 @@ def main(config):
     scores.extend(get_scores(league, UTC))
 
     scores = list(sorted(scores, key = lambda _ : (_["date"], min(scores[0]["competitions"][0]["competitors"][0]["curatedRank"]["current"], scores[1]["competitions"][0]["competitors"][0]["curatedRank"]["current"]))))
+
+    newScores = list()
+    seen = set()
+    for score in scores:
+        if score["name"] not in seen:
+            seen.add(score["name"])
+            newScores.append(score)
+    scores = newScores
+
     if len(scores) > 0:
         for i, s in enumerate(scores):
             gameStatus = s["status"]["type"]["state"]
