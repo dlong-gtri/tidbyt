@@ -194,7 +194,7 @@ def main(config):
     selectedTeam = config.get("selectedTeam", "all")
     showRanking = config.bool("displayRanking")
     displayType = config.get("displayType", "colors")
-    pregameDisplay = config.get("pregameDisplay", "record")
+    pregameDisplay = config.get("pregameDisplay", "odds")
     displayTop = config.get("displayTop", "league")
     timeColor = config.get("displayTimeColor", "#FFA500")
     rotationSpeed = config.get("rotationSpeed", "5")
@@ -3877,12 +3877,12 @@ displayOptions = [
 
 pregameOptions = [
     schema.Option(
-        display = "Team Record",
-        value = "record",
-    ),
-    schema.Option(
         display = "Gambling Odds",
         value = "odds",
+    ),
+    schema.Option(
+        display = "Team Record",
+        value = "record",
     ),
     schema.Option(
         display = "Nothing",
