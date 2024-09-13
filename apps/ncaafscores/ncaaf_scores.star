@@ -219,7 +219,7 @@ def main(config):
     league = {LEAGUE: apiURL + "&groups=" + FCS + (selectedTeam == "all" and " " or "&dates=" + yesterday.format("20060102") + "-" + nextWeek.format("20060102"))}
     scores.extend(get_scores(league, UTC))
 
-    scores = list(sorted(scores, key = lambda _ : (_["date"], min(scores[0]["competitions"][0]["competitors"][0]["curatedRank"]["current"], scores[1]["competitions"][0]["competitors"][0]["curatedRank"]["current"]))))
+    scores = list(sorted(scores, key = lambda _ : (_["date"], min(_["competitions"][0]["competitors"][0]["curatedRank"]["current"], _["competitions"][0]["competitors"][1]["curatedRank"]["current"]))))
 
     newScores = list()
     seen = set()
