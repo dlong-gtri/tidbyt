@@ -148,6 +148,11 @@ def main(config):
                     gameTime = convertedTime.format("Jan 2")
                 else:
                     gameTime = convertedTime.format("3:04 PM")
+
+                if (convertedTime - now).hours <= 168:
+                    gameTime = convertedTime.format("Mon 15:04")
+                else:
+                    gameTime = convertedTime.format("1/2 15:04")
                 if pregameDisplay == "odds":
                     checkOdds = competition.get("odds", "NO")
                     if checkOdds != "NO":
