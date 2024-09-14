@@ -91,9 +91,20 @@ def main(config):
     loc = json.decode(location)
     timezone = loc["timezone"]
     now = time.now().in_location(timezone)
-    league = {LEAGUE: API}
-    selectedTeam = config.get("selectedTeam", "all")
-    scores = get_scores(league, selectedTeam)
+    yesterday = now - time.parse_duration("%dh" % 1 * 24)
+    tomorrow = now + time.parse_duration("%dh" % 1 * 24)
+    nextWeek = now + time.parse_duration("%dh" % 6 * 24)
+
+    scores = list()
+
+    league = {LEAGUE: API + "?dates=" + yesterday.format("20060102") + "-" + tomorrow.format("20060102")}
+    scores.extend(get_scores(league, selectedTeam))
+
+    league = {LEAGUE: API + "?dates=" + yesterday.format("20060102") + "-" + nextWeek.format("20060102")}
+    scores.extend(get_scores(league, "TEN"))
+    scores.extend(get_scores(league, "ATL"))
+    scores.extend(get_scores(league, "MIN"))
+
     if len(scores) > 0:
         for i, s in enumerate(scores):
             gameStatus = s["status"]["type"]["state"]
