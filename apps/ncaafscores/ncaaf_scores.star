@@ -11,6 +11,7 @@ load("render.star", "render")
 load("schema.star", "schema")
 load("time.star", "time")
 
+SEC = "8"
 FBS = "80"
 FCS = "81"
 GEORGIA_TECH = "59"
@@ -210,6 +211,9 @@ def main(config):
     scores = list()
 
     league = {LEAGUE: apiURL + (selectedTeam == "all" and " " or "&dates=" + yesterday.format("20060102") + "-" + tomorrow.format("20060102"))}
+    scores.extend(get_scores(league, selectedTeam))
+
+    league = {LEAGUE: apiURL + "&groups=" + SEC + (selectedTeam == "all" and " " or "&dates=" + yesterday.format("20060102") + "-" + tomorrow.format("20060102"))}
     scores.extend(get_scores(league, selectedTeam))
 
     league = {LEAGUE: apiURL + "&groups=" + FBS + (selectedTeam == "all" and " " or "&dates=" + yesterday.format("20060102") + "-" + nextWeek.format("20060102"))}
@@ -703,7 +707,7 @@ conferenceOptions = [
     ),
     schema.Option(
         display = "SEC",
-        value = "8",
+        value = SEC,
     ),
     schema.Option(
         display = "Sun Belt",
