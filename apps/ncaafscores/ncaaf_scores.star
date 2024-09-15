@@ -198,7 +198,7 @@ def main(config):
     pregameDisplay = config.get("pregameDisplay", "odds")
     displayTop = config.get("displayTop", "league")
     timeColor = config.get("displayTimeColor", "#FFA500")
-    rotationSpeed = config.get("rotationSpeed", "5")
+    rotationSpeed = config.get("rotationSpeed", "3")
     apiURL = API + "?limit=300"
     location = config.get("location", DEFAULT_LOCATION)
     loc = json.decode(location)
@@ -3974,7 +3974,7 @@ def get_schema():
                 name = "Rotation Speed",
                 desc = "Amount of seconds each score is displayed.",
                 icon = "gear",
-                default = rotationOptions[2].value,
+                default = rotationOptions[0].value,
                 options = rotationOptions,
             ),
             schema.Dropdown(
