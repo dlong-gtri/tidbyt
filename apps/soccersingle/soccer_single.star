@@ -63,14 +63,14 @@ def main(config):
     else:
         teamid = DEFAULT_TEAM
 
-    league = API % ("all", str(teamid))
-    print("api call: " + league)
-    teamdata = get_scores(league)
-    scores = teamdata["nextEvent"]
+    scores = []
+    for teamid in ["660", "2765"]:
+        league = API % ("all", str(teamid))
+        print("api call: " + league)
+        teamdata = get_scores(league)
+        scores += teamdata["nextEvent"]
 
     if len(scores) > 0:
-        leagueAbbr = scores[0]["league"]["abbreviation"][0:6]
-        leagueSlug = scores[0]["league"]["slug"]
         displayType = config.get("displayType", "colors")
 
         #logoType = config.get("logoType", "primary")
@@ -79,6 +79,8 @@ def main(config):
         rotationSpeed = int(config.get("displaySpeed", DEFAULT_DISPLAY_SPEED))
 
         for _, s in enumerate(scores):
+            leagueAbbr = s["league"]["abbreviation"][0:6]
+            leagueSlug = s["league"]["slug"]
             gameStatus = s["competitions"][0]["status"]["type"]["state"]
             competition = s["competitions"][0]
             home = competition["competitors"][0]["team"]["abbreviation"]
