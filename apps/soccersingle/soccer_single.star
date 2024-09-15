@@ -64,7 +64,7 @@ def main(config):
         teamid = DEFAULT_TEAM
 
     scores = []
-    for teamid in ["660", "2765"]:
+    for teamid in ["660", "2765", "21565", "17975", "2833", "18418"]:
         league = API % ("all", str(teamid))
         print("api call: " + league)
         teamdata = get_scores(league)
@@ -79,7 +79,7 @@ def main(config):
         rotationSpeed = int(config.get("displaySpeed", DEFAULT_DISPLAY_SPEED))
 
         for _, s in enumerate(scores):
-            leagueAbbr = s["league"]["abbreviation"][0:6]
+            leagueAbbr = s["league"]["shortName"][0:6]
             leagueSlug = s["league"]["slug"]
             gameStatus = s["competitions"][0]["status"]["type"]["state"]
             competition = s["competitions"][0]
