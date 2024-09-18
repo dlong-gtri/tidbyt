@@ -4159,7 +4159,7 @@ def get_shortened_display(text):
     return text
 
 def get_logo_column(showRanking, team, Logo, LogoSize, Rank, ScoreColor, textFont, Score, scoreFont):
-    if showRanking and Rank > 0 and Rank < 26:
+    if True and Rank > 0 and Rank < 26:
         if Rank < 10:
             rankSize = 4
         else:
