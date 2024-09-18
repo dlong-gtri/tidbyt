@@ -95,15 +95,13 @@ def main(config):
     tomorrow = now + time.parse_duration("%dh" % 1 * 24)
     nextWeek = now + time.parse_duration("%dh" % 6 * 24)
 
-    scores = list()
-
-    league = {LEAGUE: API + "?dates=" + yesterday.format("20060102") + "-" + tomorrow.format("20060102")}
-    scores.extend(get_scores(league, selectedTeam))
-
     league = {LEAGUE: API + "?dates=" + yesterday.format("20060102") + "-" + nextWeek.format("20060102")}
-    scores.extend(get_scores(league, "TEN"))
-    scores.extend(get_scores(league, "ATL"))
-    scores.extend(get_scores(league, "MIN"))
+    scores = get_scores(league, selectedTeam)
+
+    favorites = list()
+    favorites.append("ATL")
+    favorites.append("MIN")
+    favorites.append("TEN")
 
     if len(scores) > 0:
         for i, s in enumerate(scores):
@@ -160,7 +158,10 @@ def main(config):
                 else:
                     gameTime = convertedTime.format("3:04 PM")
 
-                if (convertedTime - now).hours <= 168:
+                if (convertedTime - now).hours > 24 and home not in favorites and away not in favorites:
+                    continue
+
+                if (convertedTime - now).hours <= 7 * 24:
                     gameTime = convertedTime.format("Mon 15:04")
                 else:
                     gameTime = convertedTime.format("1/2 15:04")
