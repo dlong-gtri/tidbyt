@@ -161,7 +161,9 @@ def main(config):
                 if (convertedTime - now).hours > 24 and home not in favorites and away not in favorites:
                     continue
 
-                if (convertedTime - now).hours <= 7 * 24:
+                if (convertedTime - now).hours <= 24:
+                    gameTime = convertedTime.format("15:04")
+                elif (convertedTime - now).hours <= 7 * 24:
                     gameTime = convertedTime.format("Mon 15:04")
                 else:
                     gameTime = convertedTime.format("1/2 15:04")
